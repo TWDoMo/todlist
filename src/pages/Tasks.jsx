@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import { Link } from 'react-router-dom';
+import Tags from './Tags';
 import './Tasks.css';
 
 const Tasks = () => {
@@ -20,6 +20,7 @@ const Tasks = () => {
 
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editForm, setEditForm] = useState({});
+  const [showTagManager, setShowTagManager] = useState(false);
 
   useEffect(() => {
     fetchTags();
@@ -148,10 +149,16 @@ const Tasks = () => {
           </>
         )}
         <button onClick={addTask}>➕ 新增任務</button>
-        <Link to="/tags">
-          <button className="go-manage-tags">🔧 管理標籤</button>
-        </Link>
+        <button className="go-manage-tags" onClick={() => setShowTagManager(!showTagManager)}>🔧 管理標籤</button>
       </div>
+
+      {showTagManager && (
+        <div className="modal">
+          <div className="modal-content">
+            <Tags />
+          </div>
+        </div>
+      )}
 
       <h3 style={{ marginTop: '40px', textAlign: 'center' }}>📋 目前的代辦事項</h3>
       <div className="task-table-container">
